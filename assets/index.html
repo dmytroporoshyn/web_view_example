@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebMessage Test</title>
+</head>
+
+<body>
+        <!-- When you click this button, it will send a message to the Dart side -->
+        <button id="button" onclick="onSnackBarClick()">Open SnakBar</button>
+        <br />
+        <button id="button" onclick="onDialogClick()">Open Dialog</button>
+        <br />
+</body>
+
+<script>
+
+        function  onSnackBarClick() {
+                let message = {
+                        type: 'snackbar',
+                        data: 'Hellow from WebView'
+                };
+                let messageRaw = JSON.stringify(message);
+                // Using a flutterObject that we set on the Flutter side to send a message
+                flutterObject.postMessage(messageRaw)
+        }
+
+        function  onDialogClick() {
+                let message = {
+                        type: 'dialog',
+                        data: 'Hellow from WebView'
+                };
+                let messageRaw = JSON.stringify(message);
+                // Using a flutterObject that we set on the Flutter side to send a message
+                flutterObject.postMessage(messageRaw)
+        }
+
+        window.addEventListener("message", function(event) {
+                // Accept a message from the Flutter and do any action with data
+                let message = JSON.parse(event.data);
+                if(message.type === 'dialog') {
+                  alert(message.data);
+                }
+                if(message.type === 'data') {
+                  console.log(message.data);
+                }
+         });
+
+</script>
+
+</html>
